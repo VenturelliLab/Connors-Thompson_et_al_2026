@@ -4,6 +4,7 @@ from functools import partial
 
 # optimization libraries
 from scipy.optimize import minimize
+from scipy.special import comb
 
 # stats
 from jax.scipy.stats.norm import cdf, pdf
@@ -667,6 +668,102 @@ class LR(miRNN):
         o = zeros_mask*(A@i + b)
         # o = A@i + b
         # o = jnp.concatenate((s,m))*jnp.exp2(A@i + b)
+        s, m = o[:len(s)], o[len(s):]
+
+        # return carried values and slice of output
+        return (t + 1, s, m), o
+
+# Linear regression with second order terms
+class LR2(miRNN):
+
+    def __init__(self, n_species, n_metabolites, n_controls,
+                 f_ind=1., param_0=1., rng_key=123):
+
+        # set rng key
+        rng_key = random.PRNGKey(rng_key)
+
+        # store dimensions
+        self.n_species = n_species
+        self.n_metabolites = n_metabolites
+        self.n_controls = n_controls
+        self.param_0 = param_0
+        self.f_ind = f_ind
+
+        # determine indeces of species, metabolites and controls
+        self.n_out = n_species + n_metabolites
+        self.s_inds = np.array([False] * self.n_out)
+        self.m_inds = np.array([False] * self.n_out)
+        self.s_inds[:n_species] = True
+        self.m_inds[n_species:n_species + n_metabolites] = True
+
+        # determine shapes of weights/biases = [A, b]
+        basis_dim = n_species + n_metabolites + n_controls + int(comb(n_species + n_metabolites + n_controls, 2))
+        self.shapes = [[n_species + n_metabolites, basis_dim], [n_species + n_metabolites]]
+        self.k_params = []
+        self.n_params = 0
+        for shape in self.shapes:
+            self.k_params.append(self.n_params)
+            self.n_params += np.prod(shape)
+        self.k_params.append(self.n_params)
+
+        # initialize parameters
+        self.params = np.zeros(self.n_params)
+        for k1, k2, shape in zip(self.k_params[:-1], self.k_params[1:-1], self.shapes[:-1]):
+            if len(shape) > 1:
+                stdv = self.param_0 / np.sqrt(np.prod(shape))
+            self.params[k1:k2] = random.uniform(rng_key, shape=(k2 - k1,), minval=0., maxval=stdv)
+        self.Ainv = None
+        self.a = 1e-4
+        self.b = 1e-4
+
+        ### define jit compiled functions ###
+
+        # batch prediction
+        self.forward_batch = jit(vmap(self.forward, in_axes=(None, 0, 0)))
+
+        # jit compile gradient w.r.t. params
+        self.G = jit(jacfwd(self.forward_batch))
+        self.Gi = jit(jacfwd(self.forward))
+
+        # jit compile function to compute gradient of loss w.r.t. parameters
+        self.compute_grad_NLL = jit(jacrev(self.compute_NLL))
+
+
+    @partial(jit, static_argnums=(0,))
+    def output(self, params, s, m, u):
+
+        # define rnn
+        rnn_ctrl = partial(self.rnn_cell, self.reshape(params), u)
+
+        # define initial value
+        init = (0, s, m)
+
+        # per-example predictions
+        carry, out = lax.scan(rnn_ctrl, init, xs=u[1:])
+        return out
+
+    # second order basis function
+
+    # define basis vectors
+    @partial(jit, static_argnums=(0,))
+    def phi(self, vec):
+        return jnp.concatenate([vec, jnp.outer(vec, vec)[jnp.triu_indices(len(vec), k=1)]])
+
+    # Linear model cell
+    @partial(jit, static_argnums=(0,))
+    def rnn_cell(self, params, u, carry, inp):
+        # unpack carried values
+        t, s, m = carry
+
+        # unpack linear terms [A, b]
+        A, b = params
+
+        # concatenate inputs
+        i = jnp.concatenate((s, m, u[t]))
+
+        # predict output
+        zeros_mask = jnp.concatenate((jnp.array(s > 0, jnp.float32), jnp.ones(m.shape)))
+        o = zeros_mask*(A@self.phi(i) + b)
         s, m = o[:len(s)], o[len(s):]
 
         # return carried values and slice of output
