@@ -1,0 +1,7 @@
+Condition,Butyrate,Co-Culture,Fiber,BU,AC,Inulin
+AC+BU Co-Culture,0.19334113640454478,AC+BU Co-Culture,,1,1,0
+AC Monoculture,0.14450542224500884,AC Monoculture,,0,1,0
+BU Monoculture,0.0,BU Monoculture,,1,0,0
+AC+BU Co-Culture + inulin,1.0314609811307494,AC+BU Co-Culture, + inulin,1,1,1
+AC Monoculture + inulin,0.14450542224500884,AC Monoculture, + inulin,0,1,1
+BU Monoculture + inulin,0.0,BU Monoculture, + inulin,1,0,1
