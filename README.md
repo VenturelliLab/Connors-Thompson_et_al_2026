@@ -7,13 +7,12 @@
 <sup>3</sup>Department of Biomedical Engineering, Duke University, Durham, NC, 27708, USA  
 <sup>4</sup>Institute of Systems Biology, Seattle, WA 98109, USA  
 <sup>5</sup>Department of Bioengineering, University of Washington, Seattle, WA 98195, USA  
-<sup>6</sup>Department of Genome Sciences, University of Washington, Seattle, WA 98195, USA 
+<sup>6</sup>Department of Genome Sciences, University of Washington, Seattle, WA 98195, USA  
 <sup>7</sup>eScience Institute, University of Washington, Seattle, WA 98195, USA  
 <sup>8</sup>Department of Molecular Genetics and Microbiology, Duke University, Durham, NC, 27710, USA  
 
 <sup>+</sup>These authors contributed equally.  
 <sup>\*</sup>To whom correspondence should be addressed: [ophelia.venturelli@duke.edu](mailto:ophelia.venturelli@duke.edu)
-
 ---
 
 ## Overview
