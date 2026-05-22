@@ -1,13 +1,18 @@
-# Machine learning-guided design of human gut microbiome dynamics in response to dietary fibers
+# Designing fiber–gut microbiome interactions with active learning
 
-**Bryce M. Connors<sup>1,2,+</sup>, Jaron Thompson<sup>1,2,+</sup>, and Ophelia S. Venturelli<sup>1,2,3,4*</sup>**
+**Bryce M. Connors<sup>1,2,+</sup>, Jaron Thompson<sup>1,2,+</sup>, Manasi Subhash Gangan<sup>3</sup>, Nick Quinn-Bohmann<sup>4</sup>, Sean M. Gibbons<sup>4-7</sup>, Job Grant<sup>3</sup>, Alejandro Castellanos-Sanchez<sup>3</sup>, Jessica McCann<sup>8</sup>, John Rawls<sup>8</sup>, and Ophelia S. Venturelli<sup>1,2,3,8*</sup>**
 
-<sup>1</sup>Department of Biochemistry, University of Wisconsin-Madison, Madison, WI  
-<sup>2</sup>Department of Chemical & Biological Engineering, University of Wisconsin-Madison, Madison, WI  
-<sup>3</sup>Department of Bacteriology, University of Wisconsin-Madison, Madison, WI  
-<sup>4</sup>Department of Biomedical Engineering, Duke University, Durham, NC  
+<sup>1</sup>Department of Biochemistry, University of Wisconsin-Madison, Madison, WI, 53706, USA  
+<sup>2</sup>Department of Chemical & Biological Engineering, University of Wisconsin-Madison, Madison, WI, 53706, USA  
+<sup>3</sup>Department of Biomedical Engineering, Duke University, Durham, NC, 27708, USA  
+<sup>4</sup>Institute of Systems Biology, Seattle, WA 98109, USA  
+<sup>5</sup>Department of Bioengineering, University of Washington, Seattle, WA 98195, USA  
+<sup>6</sup>Department of Genome Sciences, University of Washington, Seattle, WA 98195, USA 
+<sup>7</sup>eScience Institute, University of Washington, Seattle, WA 98195, USA  
+<sup>8</sup>Department of Molecular Genetics and Microbiology, Duke University, Durham, NC, 27710, USA  
+
 <sup>+</sup>These authors contributed equally.  
-<sup>\*</sup>Correspondence: [ophelia.venturelli@duke.edu](mailto:ophelia.venturelli@duke.edu)
+<sup>\*</sup>To whom correspondence should be addressed: [ophelia.venturelli@duke.edu](mailto:ophelia.venturelli@duke.edu)
 
 ---
 
